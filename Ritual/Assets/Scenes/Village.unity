@@ -403,8 +403,9 @@ GameObject:
   - component: {fileID: 1790832649}
   - component: {fileID: 1790832648}
   - component: {fileID: 1790832647}
+  - component: {fileID: 1790832650}
   m_Layer: 0
-  m_Name: Lin_back
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -501,12 +502,27 @@ Transform:
   m_GameObject: {fileID: 1790832646}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.38, y: -1.56, z: -1}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalPosition: {x: -7.38, y: -1.37, z: -1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1790832650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790832646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb92a14072288a499debdfb9d4c46c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  speed: 3
+  animator: {fileID: 0}
+  movement: {x: 0, y: 0}
 --- !u!1 &2134847388
 GameObject:
   m_ObjectHideFlags: 0
