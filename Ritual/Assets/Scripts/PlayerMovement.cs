@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float horizontal;
 
-    // 0 = Back, 1 = Left, 2 = Right
+    //0=Back, 1=Left, 2=Right
     private int idleDirection = 0;
 
     void Start()
@@ -20,14 +20,13 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
 
         animator.SetInteger("IdleDirection", idleDirection);
-        animator.SetBool("IsWalking", false);
     }
 
     void Update()
     {
         horizontal = 0f;
 
-        // W: Face back view
+        //W, player faces forward, but shows back view
         if (Input.GetKey(KeyCode.W))
         {
             idleDirection = 0;
@@ -36,29 +35,29 @@ public class PlayerMovement : MonoBehaviour
             animator.SetInteger("IdleDirection", idleDirection);
         }
 
-        // A: Walk left
+        //A, walk left
         else if (Input.GetKey(KeyCode.A))
         {
             horizontal = -1f;
             idleDirection = 1;
 
-            animator.SetInteger("IdleDirection", idleDirection);
             animator.SetInteger("WalkDirection", -1);
+            animator.SetInteger("IdleDirection", idleDirection);
             animator.SetBool("IsWalking", true);
         }
 
-        // D: Walk right
+        //D, walk right
         else if (Input.GetKey(KeyCode.D))
         {
             horizontal = 1f;
             idleDirection = 2;
 
-            animator.SetInteger("IdleDirection", idleDirection);
             animator.SetInteger("WalkDirection", 1);
+            animator.SetInteger("IdleDirection", idleDirection);
             animator.SetBool("IsWalking", true);
         }
 
-        // No keys: Remember last facing direction
+        //if no keys are pressed, set idle direction and no movement
         else
         {
             animator.SetBool("IsWalking", false);
