@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.UI;
 
 namespace Ritual.Tests
 {
-    // Fixed design coordinates, scaled to fit any Game view aspect ratio.
+    
     public sealed class TestUI : MonoBehaviour
     {
         public RectTransform Root { get; private set; }

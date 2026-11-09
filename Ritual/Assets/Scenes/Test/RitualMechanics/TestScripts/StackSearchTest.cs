@@ -31,7 +31,7 @@ namespace Ritual.Tests
                 ui.Label(rect, "BLOCK " + (i + 1) + " / DRAG", 16, 18, 300, 40, 22);
                 rect.gameObject.AddComponent<DraggableTestBlock>().Initialize(this);
             }
-            // Reset is above the table so moving objects cannot cover it.
+            
             ui.Button(ui.Root, "Reset stack", 1030, 77, 205, 44, ResetPuzzle);
             ResetPuzzle();
         }
