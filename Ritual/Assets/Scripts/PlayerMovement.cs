@@ -12,14 +12,14 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
 
     //0=Back, 1=Left, 2=Right
-    private int idleDirection = 0;
+    private float idleDirection = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        animator.SetInteger("IdleDirection", idleDirection);
+        animator.SetFloat("IdleDirection", idleDirection);
     }
 
     void Update()
@@ -29,20 +29,20 @@ public class PlayerMovement : MonoBehaviour
         //W, player faces forward, but shows back view
         if (Input.GetKey(KeyCode.W))
         {
-            idleDirection = 0;
+            idleDirection = 2f;
 
             animator.SetBool("IsWalking", false);
-            animator.SetInteger("IdleDirection", idleDirection);
+            animator.SetFloat("IdleDirection", idleDirection);
         }
 
         //A, walk left
         else if (Input.GetKey(KeyCode.A))
         {
             horizontal = -1f;
-            idleDirection = 1;
+            idleDirection = 1f;
 
             animator.SetInteger("WalkDirection", -1);
-            animator.SetInteger("IdleDirection", idleDirection);
+            animator.SetFloat("IdleDirection", idleDirection);
             animator.SetBool("IsWalking", true);
         }
 
@@ -50,10 +50,10 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
         {
             horizontal = 1f;
-            idleDirection = 2;
+            idleDirection = 0f;
 
             animator.SetInteger("WalkDirection", 1);
-            animator.SetInteger("IdleDirection", idleDirection);
+            animator.SetFloat("IdleDirection", idleDirection);
             animator.SetBool("IsWalking", true);
         }
 
@@ -61,7 +61,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             animator.SetBool("IsWalking", false);
-            animator.SetInteger("IdleDirection", idleDirection);
+            animator.SetFloat("IdleDirection", idleDirection);
+            Debug.Log("current idle direction: " + idleDirection.ToString());
         }
     }
 
