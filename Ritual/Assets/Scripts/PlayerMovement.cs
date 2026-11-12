@@ -57,6 +57,13 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", true);
         }
 
+        else if (Input.GetKey(KeyCode.S))
+        {
+            idleDirection = 3f;
+            animator.SetBool("IsWalking", false);
+            animator.SetFloat("IdleDirection", idleDirection);
+        }
+
         //if no keys are pressed, set idle direction and no movement
         else
         {
