@@ -181,10 +181,10 @@ TextureImporter:
       name: Crouch_0
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 129
-        width: 1230
-        height: 2094
+        x: 235
+        y: 120
+        width: 3079
+        height: 1468
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
