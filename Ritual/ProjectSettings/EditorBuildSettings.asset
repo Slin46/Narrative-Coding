@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Village.unity
     guid: 6ac672be0b7861047b072d810304b533
+  - enabled: 1
+    path: Assets/Scenes/GuestHouse.unity
+    guid: ebb83319aea5f3744817fdfc929659d0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

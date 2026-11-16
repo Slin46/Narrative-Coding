@@ -16,7 +16,7 @@ public class Fade : MonoBehaviour
         StartCoroutine(Fadein());
     }
 
-    IEnumerator Fadein()
+    public IEnumerator Fadein()
     {
         float timer = 0f;
 

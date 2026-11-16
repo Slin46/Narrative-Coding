@@ -69,7 +69,6 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("IsWalking", false);
             animator.SetFloat("IdleDirection", idleDirection);
-            Debug.Log("current idle direction: " + idleDirection.ToString());
         }
     }
 
