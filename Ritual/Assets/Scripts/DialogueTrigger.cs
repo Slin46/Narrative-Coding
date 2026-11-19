@@ -1,39 +1,103 @@
+using System;
 using UnityEngine;
-using Yarn.Unity; 
+using Yarn.Unity;
 
 public class DialogueTrigger : MonoBehaviour
 {
     public Collider2D targetCollider;
-    public string[] conversationOrder;   
+    public string[] conversationOrder;
     public DialogueRunner dialogueRunner;
+    public Item_Cam_Rig cameraRig;
 
-    private int currentIndex = 0;
+    [Tooltip("This item's dialogue must finish before this object can be clicked.")]
+    public DialogueTrigger prerequisite;
+
+    private int currentIndex;
+    private bool conversationInProgress;
+
+    public bool HasCompleted => conversationOrder != null &&
+        conversationOrder.Length > 0 && currentIndex >= conversationOrder.Length;
+
+    public bool CanInteract => isActiveAndEnabled && !conversationInProgress &&
+        !HasCompleted && (prerequisite == null || prerequisite.HasCompleted) &&
+        dialogueRunner != null && !dialogueRunner.IsDialogueRunning &&
+        dialogueRunner.DialogueTask.IsCompleted();
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!CanInteract || !Input.GetMouseButtonDown(0) ||
+            targetCollider == null || !targetCollider.isActiveAndEnabled)
         {
-            Vector2 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (targetCollider.OverlapPoint(mouseWorld))
-            {
-                TriggerNextConversation();
-            }
+            return;
+        }
+
+        Camera camera = Camera.main;
+        if (camera == null)
+        {
+            return;
+        }
+
+        Vector2 mouseWorld = camera.ScreenToWorldPoint(Input.mousePosition);
+        if (targetCollider.OverlapPoint(mouseWorld))
+        {
+            TriggerNextConversation();
         }
     }
 
-    void TriggerNextConversation()
+    public void TriggerNextConversation()
     {
-        if (conversationOrder.Length == 0)
+        if (!CanInteract)
         {
-            Debug.Log("No conversations assigned!");
+            return;
+        }
+
+        if (conversationOrder == null || conversationOrder.Length == 0)
+        {
+            Debug.LogWarning("No conversations assigned to " + name, this);
             return;
         }
 
         string nodeName = conversationOrder[currentIndex];
-        Debug.Log("Starting Yarn conversation: " + nodeName);
+        if (dialogueRunner.YarnProject == null ||
+            string.IsNullOrWhiteSpace(nodeName) || !dialogueRunner.Dialogue.NodeExists(nodeName))
+        {
+            Debug.LogError("Assign a Yarn Project containing the node '" + nodeName + "'.", this);
+            return;
+        }
 
-        dialogueRunner.StartDialogue(nodeName); 
+        RunConversation(nodeName).Forget();
+    }
 
-        currentIndex = Mathf.Min(currentIndex + 1, conversationOrder.Length - 1);
+    private async YarnTask RunConversation(string nodeName)
+    {
+        conversationInProgress = true;
+        try
+        {
+            if (cameraRig != null)
+            {
+                cameraRig.cam_move("item");
+            }
+
+            await dialogueRunner.StartDialogue(nodeName);
+            await dialogueRunner.DialogueTask;
+
+            if (this != null)
+            {
+                currentIndex++;
+            }
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(exception, this);
+        }
+        finally
+        {
+            if (cameraRig != null)
+            {
+                cameraRig.cam_move("return");
+            }
+
+            conversationInProgress = false;
+        }
     }
 }
