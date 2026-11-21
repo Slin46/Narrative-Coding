@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerScript : MonoBehaviour
 {
+    [SerializeField] private string mainMenuSceneName = "StartScene";
+
     public void NewGame()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
@@ -20,5 +22,12 @@ public class SceneManagerScript : MonoBehaviour
         int currentScene = SceneManager.GetActiveScene().buildIndex;
 
         SceneManager.LoadScene(currentScene + 1);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }
