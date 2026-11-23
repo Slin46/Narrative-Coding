@@ -1,47 +1,80 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Fade : MonoBehaviour
 {
-    //fade image to be used for the fade effect
-    public Image fadeImage;
+    //how long it fades
     public float fadeDuration = 1f;
+    //how long it pauses
+    public float displayDuration = 3f;
+    public SceneManagerScript sceneManager;
 
-    //reference to SceneManager script
-    public SceneManagerScript sceneManagement;
+    private TextMeshProUGUI warningText;
 
     void Start()
     {
-        StartCoroutine(Fadein());
+        warningText = GetComponent<TextMeshProUGUI>();
+
+        if (warningText == null)
+        {
+            Debug.LogError("No TextMeshProUGUI component found on this GameObject");
+            return;
+        }
+
+        //mkae it invisible first
+        Color color = warningText.color;
+        color.a = 0f;
+        warningText.color = color;
+
+        StartCoroutine(FadeWarning());
     }
 
-    public IEnumerator Fadein()
+    IEnumerator FadeWarning()
     {
+        //fade in
         float timer = 0f;
-
-        //fade image set to black
-        Color color = fadeImage.color;
-        color.a = 1f;
-        fadeImage.color = color;
 
         while (timer < fadeDuration)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
 
-            color.a = Mathf.Lerp(1f, 0f, timer / fadeDuration);
-            fadeImage.color = color;
+            Color color = warningText.color;
+            color.a = Mathf.Clamp01(timer / fadeDuration);
+            warningText.color = color;
 
             yield return null;
         }
 
-        color.a = 0f;
-        fadeImage.color = color;
+        //make it visible
+        Color finalColor = warningText.color;
+        finalColor.a = 1f;
+        warningText.color = finalColor;
 
-        //wait 5 seconds
-        yield return new WaitForSeconds(5f);
+        //wait 3 seconds
+        yield return new WaitForSecondsRealtime(displayDuration);
 
-        //call next scene from my scenemanager script
-        sceneManagement.NextScene();
+        //fade out
+        timer = 0f;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.unscaledDeltaTime;
+
+            Color color = warningText.color;
+            color.a = 1f - Mathf.Clamp01(timer / fadeDuration);
+            warningText.color = color;
+
+            yield return null;
+        }
+
+        //completely transparent again
+        Color endColor = warningText.color;
+        endColor.a = 0f;
+        warningText.color = endColor;
+
+        //load next scene in the build (office)
+        sceneManager.NextScene();
     }
 }
