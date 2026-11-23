@@ -8,6 +8,8 @@ public class DialogueTrigger : MonoBehaviour
     public string[] conversationOrder;
     public DialogueRunner dialogueRunner;
     public Item_Cam_Rig cameraRig;
+    public SpriteRenderer interactionGlow;
+    public float glowOpacity = 0.5f;
 
     [Tooltip("This item's dialogue must finish before this object can be clicked.")]
     public DialogueTrigger prerequisite;
@@ -25,6 +27,14 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
+        if (interactionGlow != null)
+        {
+            bool available = CanInteract && targetCollider != null && targetCollider.isActiveAndEnabled;
+            Color color = interactionGlow.color;
+            color.a = Mathf.MoveTowards(color.a, available ? glowOpacity : 0f, Time.unscaledDeltaTime * 3f);
+            interactionGlow.color = color;
+        }
+
         if (!CanInteract || !Input.GetMouseButtonDown(0) ||
             targetCollider == null || !targetCollider.isActiveAndEnabled)
         {
@@ -66,6 +76,16 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         RunConversation(nodeName).Forget();
+    }
+
+    void OnDisable()
+    {
+        if (interactionGlow != null)
+        {
+            Color color = interactionGlow.color;
+            color.a = 0f;
+            interactionGlow.color = color;
+        }
     }
 
     private async YarnTask RunConversation(string nodeName)
