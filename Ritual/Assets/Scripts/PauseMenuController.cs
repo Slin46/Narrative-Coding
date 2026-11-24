@@ -8,11 +8,6 @@ using UnityEngine.UI;
 /// </summary>
 public sealed class PauseMenuController : MonoBehaviour
 {
-    private const string SavedSceneKey = "PauseMenu.SavedScene";
-    private const string SavedPositionXKey = "PauseMenu.SavedPositionX";
-    private const string SavedPositionYKey = "PauseMenu.SavedPositionY";
-    private const string SavedPositionZKey = "PauseMenu.SavedPositionZ";
-
     [Header("Canvas References")]
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Button pauseButton;
@@ -26,6 +21,8 @@ public sealed class PauseMenuController : MonoBehaviour
     private bool isPaused;
     private bool audioWasPaused;
 
+    public bool IsOpen => isPaused;
+
     private void Awake()
     {
         if (pausePanel == null || pauseButton == null || continueButton == null || saveButton == null || mainMenuButton == null || quitButton == null)
@@ -36,7 +33,8 @@ public sealed class PauseMenuController : MonoBehaviour
         }
 
         pausePanel.SetActive(false);
-        pauseButton.onClick.AddListener(PauseGame);
+        pauseButton.onClick.AddListener(TogglePause);
+        pauseButton.transform.SetAsLastSibling();
         continueButton.onClick.AddListener(ResumeGame);
         saveButton.onClick.AddListener(SaveGame);
         mainMenuButton.onClick.AddListener(ReturnToMainMenu);
@@ -61,12 +59,31 @@ public sealed class PauseMenuController : MonoBehaviour
     {
         if (isPaused) return;
 
+        ClueBoardUI clueBoard = FindFirstObjectByType<ClueBoardUI>();
+        if (clueBoard != null && clueBoard.IsOpen)
+        {
+            return;
+        }
+
         isPaused = true;
         audioWasPaused = AudioListener.pause;
         AudioListener.pause = true;
         Time.timeScale = 0f;
         pausePanel.SetActive(true);
+        pauseButton.transform.SetAsLastSibling();
         SetSaveStatus("Progress is saved to this device.");
+    }
+
+    public void TogglePause()
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
     }
 
     public void ResumeGame()
@@ -88,12 +105,7 @@ public sealed class PauseMenuController : MonoBehaviour
             return;
         }
 
-        Vector3 position = player.transform.position;
-        PlayerPrefs.SetString(SavedSceneKey, SceneManager.GetActiveScene().name);
-        PlayerPrefs.SetFloat(SavedPositionXKey, position.x);
-        PlayerPrefs.SetFloat(SavedPositionYKey, position.y);
-        PlayerPrefs.SetFloat(SavedPositionZKey, position.z);
-        PlayerPrefs.Save();
+        GameSave.Save(SceneManager.GetActiveScene().name, player.transform.position);
         SetSaveStatus("Game saved.");
     }
 

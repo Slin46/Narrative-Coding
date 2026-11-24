@@ -26,6 +26,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            horizontal = 0f;
+            animator.SetBool("IsWalking", false);
+            return;
+        }
+
         horizontal = 0f;
 
         //W, player faces forward, but shows back view
