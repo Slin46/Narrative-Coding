@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneManagerScript : MonoBehaviour
 {
@@ -19,6 +20,24 @@ public class SceneManagerScript : MonoBehaviour
         {
             ResetProgress();
         }
+    }
+
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().name != "StartScene" || gameObject.name != "SceneManager")
+        {
+            return;
+        }
+
+        GameObject resumeObject = GameObject.Find("resume game");
+        if (resumeObject == null)
+        {
+            return;
+        }
+
+        Button resumeButton = resumeObject.GetComponent<Button>();
+        resumeButton.interactable = GameSave.HasSave();
+        resumeButton.onClick.AddListener(ContinueGame);
     }
 
     public void NewGame()
@@ -60,5 +79,10 @@ public class SceneManagerScript : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         SceneManager.LoadScene(0);
+    }
+
+    public void ContinueGame()
+    {
+        GameSave.ContinueGame();
     }
 }
