@@ -10,7 +10,19 @@ public class GuestHouseEnter : MonoBehaviour
     public float waitDuration = 1f;
     public string destinationSceneName = "GuestHouse";
 
+    public Transform spawnPoint;
+
+    private PlayerMovement playerMovement;
+
     private bool isEntering = false;
+    //set can enter to false to prevent player from advcancing to the next scene prior to finishing dialogue and puzzles
+    private bool canEnter = false;
+
+    //call this function when dialogue or puzzle is finished
+    public void CanEnter()
+    {
+        canEnter = true;
+    }
 
     void OnTriggerStay2D(Collider2D other)
     {
@@ -19,7 +31,16 @@ public class GuestHouseEnter : MonoBehaviour
             !isEntering)
         {
             isEntering = true;
+
             StartCoroutine(EnterGuestHouse());
+
+            //disable player movement when entering the next scene
+            playerMovement = other.GetComponent<PlayerMovement>();
+
+            if (playerMovement != null)
+            {
+                playerMovement.canMove = false;
+            }
         }
     }
 
@@ -42,4 +63,7 @@ public class GuestHouseEnter : MonoBehaviour
         fadeImage.color = color;
         SceneManager.LoadScene(destinationSceneName);
     }
+
 }
+
+

@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed = 3f;
 
+    public bool canMove = true;
+
     private Rigidbody2D rb;
     private Animator animator;
 
@@ -33,6 +35,15 @@ public class PlayerMovement : MonoBehaviour
 
             animator.SetBool("IsWalking", false);
             animator.SetFloat("IdleDirection", idleDirection);
+        }
+
+        //stop player movement when player presses W on triggerzone
+        if (!canMove)
+        {
+            horizontal = 0f;
+            animator.SetBool("IsWalking", false);
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
 
         //A, walk left
