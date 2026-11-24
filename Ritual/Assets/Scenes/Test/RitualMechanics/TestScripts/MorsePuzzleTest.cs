@@ -27,7 +27,7 @@ namespace Ritual.Tests
             source.playOnAwake = false; source.spatialBlend = 0;
             dot = Tone(Unit); dash = Tone(Unit * 3);
             var ui = host.UI;
-            ui.Label(ui.Root, "Listen to four digits. Decode using the book on the RIGHT.", 32, 140, 1200, 40);
+            ui.Label(ui.Root, "Listen to the signal and enter the four-digit code.", 32, 140, 1200, 40);
             ui.Panel(ui.Root, "Codebook", 850, 195, 360, 435, new Color(.17f, .23f, .3f));
             ui.Label(ui.Root, "MORSE CODE BOOK", 875, 210, 310, 42, 25);
             string book = "";
@@ -37,7 +37,7 @@ namespace Ritual.Tests
             ui.Label(ui.Root, "DOT = 1 beat / DASH = 3 beats", 865, 597, 330, 30, 17);
             ui.Button(ui.Root, "Play / Replay signal", 70, 200, 350, 55, PlaySignal);
             ui.Button(ui.Root, "Stop", 440, 200, 180, 55, StopSignal);
-            playbackLabel = ui.Label(ui.Root, "Press Play. Headphones recommended.", 70, 270, 700, 55, 23);
+            playbackLabel = ui.Label(ui.Root, "", 70, 270, 700, 55, 23);
             entryLabel = ui.Label(ui.Root, "", 70, 330, 700, 60, 32);
             for (int i = 0; i < 10; i++)
             {
@@ -55,7 +55,7 @@ namespace Ritual.Tests
             StopSignal(); Solved = false; entered = ""; answer = "";
             for (int i = 0; i < 4; i++) answer += Random.Range(0, 10).ToString();
             RefreshEntry();
-            host.Status.text = "A new four-digit signal is ready. Listen and use the code book.";
+            host.Status.text = "";
         }
 
         public void EnterDigit(int digit)
@@ -73,7 +73,7 @@ namespace Ritual.Tests
         {
             if (host.Blocked || Solved) return;
             Solved = entered == answer;
-            host.Status.text = Solved ? "SUCCESS / Correct Morse code. Lock opened." : "Incorrect code. Replay the signal and try again.";
+            host.Status.text = Solved ? "Correct code." : "Incorrect code. Try again.";
             if (Solved) StopSignal();
         }
         public void PlaySignal()
@@ -86,7 +86,7 @@ namespace Ritual.Tests
             if (playback != null) StopCoroutine(playback);
             playback = null;
             if (source != null) source.Stop();
-            if (playbackLabel != null) playbackLabel.text = "Signal stopped. Press Play to hear it again.";
+            if (playbackLabel != null) playbackLabel.text = "";
         }
         private IEnumerator Transmit()
         {
@@ -107,7 +107,7 @@ namespace Ritual.Tests
                 }
                 if (i < answer.Length - 1) yield return Wait(Unit * 3);
             }
-            playbackLabel.text = "Signal complete. Replay as often as needed.";
+            playbackLabel.text = "Signal complete.";
             playback = null;
         }
         private IEnumerator Wait(float seconds)

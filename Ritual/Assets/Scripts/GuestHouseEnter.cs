@@ -16,7 +16,7 @@ public class GuestHouseEnter : MonoBehaviour
 
     private bool isEntering = false;
     //set can enter to false to prevent player from advcancing to the next scene prior to finishing dialogue and puzzles
-    private bool canEnter = false;
+    public bool canEnter = true;
 
     //call this function when dialogue or puzzle is finished
     public void CanEnter()
@@ -28,6 +28,7 @@ public class GuestHouseEnter : MonoBehaviour
     {
         if (other.CompareTag("Player") &&
             Input.GetKey(KeyCode.W) &&
+            canEnter &&
             !isEntering)
         {
             isEntering = true;

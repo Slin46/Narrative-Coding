@@ -18,7 +18,6 @@ public sealed class OfficeFlow : MonoBehaviour
     private readonly Image[] tileFrames = new Image[TileCount];
 
     private Canvas canvas;
-    private TextMeshProUGUI puzzleStatus;
     private Collider2D emailLinkCollider;
     private SceneManagerScript sceneManager;
     private Sprite puzzleSprite;
@@ -127,15 +126,11 @@ public sealed class OfficeFlow : MonoBehaviour
         CreateFullScreenPanel("Fixer puzzle dim", new Color(.025f, .04f, .065f, .98f), true);
         var frame = CreatePanel("Puzzle frame", canvas.transform, Vector2.zero,
             new Vector2(1450, 920), new Color(.10f, .14f, .18f, 1f), true);
-        CreateLabel(frame, "RESTORE THE IMAGE", new Vector2(0, 388), new Vector2(1320, 62), 36,
+        CreateLabel(frame, "Click to swap pieces. Restore the picture", new Vector2(0, 388), new Vector2(1320, 62), 36,
             TextAlignmentOptions.Center, Color.white);
-        CreateLabel(frame, "Click two fragments to swap them.", new Vector2(0, 333),
-            new Vector2(1320, 42), 22, TextAlignmentOptions.Center, new Color(.70f, .79f, .84f));
 
         // Fixer artwork is the only image source. There is intentionally no reference preview.
         BuildTileGrid(frame);
-        puzzleStatus = CreateLabel(frame, "Select a fragment to begin.", new Vector2(0, -408),
-            new Vector2(1320, 44), 22, TextAlignmentOptions.Center, new Color(.72f, .88f, .91f));
     }
 
     private void BuildTileGrid(Transform parent)
@@ -226,12 +221,10 @@ public sealed class OfficeFlow : MonoBehaviour
         if (selectedTile < 0)
         {
             selectedTile = index;
-            puzzleStatus.text = "Choose the fragment to swap with it.";
         }
         else if (selectedTile == index)
         {
             selectedTile = -1;
-            puzzleStatus.text = "Select a fragment to begin.";
         }
         else
         {
@@ -240,7 +233,6 @@ public sealed class OfficeFlow : MonoBehaviour
             tileOrder[index] = old;
             selectedTile = -1;
             puzzleSolved = IsSolved();
-            puzzleStatus.text = puzzleSolved ? "Image restored." : "Keep restoring the Fixer image.";
         }
 
         RefreshTiles();

@@ -1,0 +1,28 @@
+title: GuestHouseLady
+---
+Lady: You're not from this village are you, what can I do for you?
+-> Lie
+    Lin: I would like to stay for the night.
+    Lin: I’m from the village on the other side of the mountain, just passing through, heading to the city.
+Lady: Can I get your ID, I need to write down your information.
+Lady: What a surprise, two weeks ago a handsome young man stopped by here too,
+Lady: said he was from a village on the other side of the mountain.
+Lady: His name was K something.. Kai right! You know him?
+-> Yes (Worried)
+    Lin: We live in the same village, we are good friends, is he still here?
+    Lady: No, he left a few days ago.
+    Lady: You know it’s strange because it turns out he wasn’t truthful about coming from a village across the mountain.
+    Lady: Of course it took us a while to find out but we did..
+    Lady: Anyways, here’s your ID back, let me take you to your room.
+-> Yes but only by name (Wary)
+    Lin: We come from the same village but we aren’t friends or anything.
+    Lady: Oh that’s surprising because you know I’ve been to the village across the mountain and I’ve never heard of either of you!
+    Lady: But of course maybe it’s another village, you wouldn’t lie to a old lady would you...
+    Lady: Anyways, here’s your ID back, let me take you to your room.
+-> No (Cautious)
+    Lin: I’ve never heard of him, he’s probably not from my village.
+    Lady: It’s funny though, you guys say you are from the similar place.
+    Lady: Turns out though he wasn’t very truthful with us.
+    Lady: You are being truthful aren’t you dear... haha of course you are,
+    Lady: anyways, here’s your ID back, let me take you to your room.
+===

@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
 
     //0=Back, 1=Left, 2=Right
-    private float idleDirection = 0f;
+    [SerializeField] private float idleDirection = 0f;
 
     void Start()
     {

@@ -32,5 +32,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Act2Village.unity
     guid: 6bba19793ae9244499dc9054b3a0e5a7
+  - enabled: 1
+    path: Assets/Scenes/Farm.unity
+    guid: 1a39e7b6c74c1f544b98ac8caca85f07
+  - enabled: 1
+    path: Assets/Scenes/Basement.unity
+    guid: 53a8bb67ddbb8b7479b7f457a8a335d8
+  - enabled: 1
+    path: Assets/Scenes/ButcherRoom.unity
+    guid: 52d3530938d6adf489895e6daa43430d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

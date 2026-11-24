@@ -1,0 +1,20 @@
+title: GirlSacrificeNPC
+---
+Girl: “Save me…”
+Lin: “I will try, what is going on here.”
+Girl: “They want us dead, help me, they won’t let us leave, you have to try.”
+Lin: “How long have you been here, what does 128 mean.”
+Girl: “A day they brought me in, said I was a backup for 129, Said 129 fits the time better.
+Girl: In the village I came from, we were all numbered.
+Girl: They take us in order, I never saw them again.
+Girl: I’m guessing this place is the same.”
+(Time.. time of arrival? Or possible time of birth? Where could they have gone)
+Girl: “Your birthday doesn’t happen to be in the spring does it?”
+-> Yes
+    Lin: “Yes, my birthday’s in February, why do you ask.”
+    Girl: “Never mind it isn’t important.”
+-> No
+    Lin: “No, it’s in the winter why do you ask.”
+    Girl: “That’s strange, why are you here… Never-mind”
+(She’s not being honest, or she’s just not telling me what she knows..)
+===

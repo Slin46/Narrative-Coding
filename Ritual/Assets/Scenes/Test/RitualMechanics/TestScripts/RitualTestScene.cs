@@ -30,6 +30,20 @@ namespace Ritual.Tests
             square = blockSprite;
         }
 
+        public void InitializeMorsePanel()
+        {
+            UI = gameObject.AddComponent<TestUI>();
+            UI.Initialize(false);
+            UI.Root.name = "Morse Code Panel";
+            var background = UI.Root.gameObject.AddComponent<UnityEngine.UI.Image>();
+            background.color = new Color(.1f, .15f, .21f);
+            UI.Label(UI.Root, "MORSE CODE", 32, 20, 1020, 45, 30);
+            UI.Label(UI.Root, "Esc to close", 1050, 28, 200, 36, 20);
+            UI.Panel(UI.Root, "Footer", 0, 650, 1280, 70, TestUI.Ink);
+            Status = UI.Label(UI.Root, "", 32, 667, 1200, 42, 23);
+            gameObject.AddComponent<MorsePuzzleTest>().Initialize(this);
+        }
+
         public void BuildEnvironment()
         {
             var cameraObject = new GameObject("TestCamera", typeof(Camera), typeof(AudioListener));

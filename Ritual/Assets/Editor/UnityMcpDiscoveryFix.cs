@@ -9,10 +9,10 @@ using UnityEngine;
 /// when Unity 6.5 forbids AssetDatabase.IsAssetImportWorkerProcess().
 /// Retry at the first idle editor update, without changing server permissions or settings.
 /// </summary>
-[InitializeOnLoad]
-internal static class UnityMcpDiscoveryFix
+internal static partial class UnityMcpDiscoveryFix
 {
-    static UnityMcpDiscoveryFix()
+    [Unity.Scripting.LifecycleManagement.OnCodeLoaded]
+    static void OnCodeLoaded()
     {
         EditorApplication.delayCall += PublishWhenReady;
     }

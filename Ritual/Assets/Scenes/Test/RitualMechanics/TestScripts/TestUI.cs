@@ -13,7 +13,7 @@ namespace Ritual.Tests
         public static readonly Color Ink = new Color(.08f, .11f, .16f);
         public static readonly Color Accent = new Color(.16f, .68f, .77f);
 
-        public void Initialize()
+        public void Initialize(bool createEventSystem = true)
         {
             var go = new GameObject("TestCanvas", typeof(RectTransform), typeof(Canvas),
                 typeof(UnityEngine.UI.CanvasScaler), typeof(UnityEngine.UI.GraphicRaycaster));
@@ -26,8 +26,11 @@ namespace Ritual.Tests
             scaler.referenceResolution = new Vector2(1280, 720);
             scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand;
             Root = go.GetComponent<RectTransform>();
-            var events = new GameObject("TestEventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
-            events.transform.SetParent(transform, false);
+            if (createEventSystem)
+            {
+                var events = new GameObject("TestEventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+                events.transform.SetParent(transform, false);
+            }
         }
 
         public RectTransform Rect(string name, Transform parent, float x, float y, float w, float h)
